@@ -10,44 +10,25 @@ namespace BusBoard
     {
         static void Main(string[] args)
         {
-            // Console.WriteLine("Please enter a stop code:");
+            var tflapi = new TfLApiReader();
+            
+            tflapi.GetStops("51.509219", "-0.035665", "5000");
+            
+            //Console.WriteLine("Please enter a stop code:");
+            //var stopCode = GetStopCode(Console.ReadLine());
             
             
-            void GetBuses(string stopcode)
-            {
-                var client = new RestClient($"https://api.tfl.gov.uk");
-                var request = new RestRequest("StopPoint/{stopcode}/Arrivals", Method.GET)
-                    .AddUrlSegment("stopcode", stopcode);
-                
-                IRestResponse<List<Bus>> response = client.Get<List<Bus>>(request);
-                var busList = response.Data.OrderBy(bus=>bus.TimeToStation).ToList();
-                
-                for (int i = 0; i < 5; i++)
-                {
-                    Console.WriteLine(i+1 +")");
-                    Console.WriteLine("Bus destination: " + busList[i].DestinationName);
-                    Console.WriteLine("Bus number: " + busList[i].LineId);
-                    if (busList[i].TimeToStation / 60 == 1)
-                    {
-                        Console.WriteLine("Time til arrival: " + busList[i].TimeToStation/60 + " minute");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Time til arrival: " + busList[i].TimeToStation/60 + " minutes");
-                    }
-                    Console.WriteLine();
-                }
-            }
-            
-            GetBuses("490008660N");
+            //var busList = tflapi.GetBusesAtStop("490008660N");
             
             
-            /*Console.WriteLine("The next five buses are:\n");
-            Console.WriteLine();*/
+            
+            //PrintToConsole.NextFiveBuses(busList);
+            
+            
+            
+            
+        }   
+        
 
-            
-
-
-        }
     }
 }
