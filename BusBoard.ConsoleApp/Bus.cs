@@ -13,6 +13,7 @@ namespace BusBoard
         public string StationName { get; set; }
         public string DestinationName { get; set; }
         public int TimeToStation { get; set; }
+        public string LineId { get; set; }
         
 
     }

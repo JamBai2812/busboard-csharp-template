@@ -15,39 +15,28 @@ namespace BusBoard
             
             void GetBuses(string stopcode)
             {
-                var client = new RestClient($"https://api.tfl.gov.uk/StopPoint/{stopcode}/Arrivals");
-                client.Authenticator = new HttpBasicAuthenticator("0a23312b", "7eac821c843820611cbd430e59853815");
-            
-                var request = new RestRequest(Method.GET);
+                var client = new RestClient($"https://api.tfl.gov.uk");
+                var request = new RestRequest("StopPoint/{stopcode}/Arrivals", Method.GET)
+                    .AddUrlSegment("stopcode", stopcode);
                 
                 IRestResponse<List<Bus>> response = client.Get<List<Bus>>(request);
-                var busList = response.Data.OrderBy(o=>o.TimeToStation).ToList();
+                var busList = response.Data.OrderBy(bus=>bus.TimeToStation).ToList();
                 
-                
-
-
-                foreach (Bus bus in busList)
+                for (int i = 0; i < 5; i++)
                 {
-                    Console.WriteLine("Bus destination: " + bus.DestinationName);
-                    Console.WriteLine("Bus ID"+bus.VehicleId);
-                    Console.WriteLine("Time til arrival: "+ bus.TimeToStation);
+                    Console.WriteLine(i+1 +")");
+                    Console.WriteLine("Bus destination: " + busList[i].DestinationName);
+                    Console.WriteLine("Bus number: " + busList[i].LineId);
+                    if (busList[i].TimeToStation / 60 == 1)
+                    {
+                        Console.WriteLine("Time til arrival: " + busList[i].TimeToStation/60 + " minute");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Time til arrival: " + busList[i].TimeToStation/60 + " minutes");
+                    }
+                    Console.WriteLine();
                 }
-
-                var nextFiveBuses = new List<Bus>();
-                
-
-                /*foreach (var header in response.Headers)
-                {
-                   Console.WriteLine(header); 
-                }
-
-                Console.WriteLine(response.Headers);*/
-
-                /*foreach (var bus in response)
-                {
-                    Console.WriteLine(response);
-                }*/
-
             }
             
             GetBuses("490008660N");
