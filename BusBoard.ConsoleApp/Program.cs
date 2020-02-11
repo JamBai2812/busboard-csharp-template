@@ -6,7 +6,11 @@ namespace BusBoard
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Please enter a stop code:");
+            var stopcode = Console.ReadLine();
+            
+            Console.WriteLine("The next five buses are:\n");
+            Console.WriteLine();
         }
     }
 }
