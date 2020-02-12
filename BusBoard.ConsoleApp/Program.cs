@@ -10,43 +10,23 @@ namespace BusBoard
     {
         static void Main(string[] args)
         {
-            var tflapi = new TfLApiReader();
-            var postapi = new PostcodeAPI();
-            
-            GetFiveNextBusesFromTwoClosestStops();
-
-
-            void GetFiveNextBusesFromTwoClosestStops()
+            try
             {
-                Console.WriteLine("Please enter a postcode:");
-                var postCode = Console.ReadLine();
-
-                var data = postapi.GetPostCodeData(postCode);
-                var stopList = tflapi.GetStops(data.Latitude, data.Longitude, "300");
-                PrintToConsole.StopsNearMe(stopList);
-
-                foreach (var stop in stopList.Take(2))
-                {
-                    var busList = tflapi.GetBusesAtStop(stop.NaptanId);
-                    Console.WriteLine($"\nThe next buses from {stop.CommonName}({stop.StopLetter}) are: ");
-                    PrintToConsole.NextFiveBuses(busList);
-                }
+                var busManager = new Manager();
+                var postCode = busManager.GetUserPostCode();
+                var stopList = busManager.GetStopListNearPostCode(postCode);
+                busManager.GetFiveNextBusesFromTwoClosestStops(stopList);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("That Postcode does not exist in the TfL database.");
             }
             
-            
-            //Eventually just want:
-        /*
-            Getter.ChooseOption();
-            var inputPostcode = Console.ReadLine();
-            
-            
-            
-            
-            */
-            
-            
-        }   
-        
 
+
+
+
+            
+        }
     }
 }
