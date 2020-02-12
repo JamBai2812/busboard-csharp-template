@@ -2,7 +2,9 @@
 {
     public class Stop
     {
-        public int Distance { get; set; }
+        public float Distance { get; set; }
         public string NaptanId { get; set; }
+        public string CommonName { get; set; }
+        public string StopLetter { get; set; }
     }
 }

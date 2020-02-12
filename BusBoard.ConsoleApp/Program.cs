@@ -11,20 +11,38 @@ namespace BusBoard
         static void Main(string[] args)
         {
             var tflapi = new TfLApiReader();
+            var postapi = new PostcodeAPI();
             
-            tflapi.GetStops("51.509219", "-0.035665", "5000");
+            GetFiveNextBusesFromTwoClosestStops();
+
+
+            void GetFiveNextBusesFromTwoClosestStops()
+            {
+                Console.WriteLine("Please enter a postcode:");
+                var postCode = Console.ReadLine();
+
+                var data = postapi.GetPostCodeData(postCode);
+                var stopList = tflapi.GetStops(data.Latitude, data.Longitude, "300");
+                PrintToConsole.StopsNearMe(stopList);
+
+                foreach (var stop in stopList.Take(2))
+                {
+                    var busList = tflapi.GetBusesAtStop(stop.NaptanId);
+                    Console.WriteLine($"\nThe next buses from {stop.CommonName}({stop.StopLetter}) are: ");
+                    PrintToConsole.NextFiveBuses(busList);
+                }
+            }
             
-            //Console.WriteLine("Please enter a stop code:");
-            //var stopCode = GetStopCode(Console.ReadLine());
+            
+            //Eventually just want:
+        /*
+            Getter.ChooseOption();
+            var inputPostcode = Console.ReadLine();
             
             
-            //var busList = tflapi.GetBusesAtStop("490008660N");
             
             
-            
-            //PrintToConsole.NextFiveBuses(busList);
-            
-            
+            */
             
             
         }   
