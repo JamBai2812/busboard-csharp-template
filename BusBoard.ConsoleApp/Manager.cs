@@ -22,11 +22,11 @@ namespace BusBoard
         {
             var data = postapi.GetPostCodeData(postCode);
             var stopList = tflapi.GetStops(data.Latitude, data.Longitude, "300");
-            PrintToConsole.TwoStopsNearMe(stopList);
             return stopList;
         }
         public void GetFiveNextBusesFromTwoClosestStops(List<Stop> stopList)
         {
+            PrintToConsole.TwoStopsNearMe(stopList);
             foreach (var stop in stopList.Take(2))
             {
                 var busList = tflapi.GetBusesAtStop(stop.NaptanId);

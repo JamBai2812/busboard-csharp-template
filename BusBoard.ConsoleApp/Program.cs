@@ -10,23 +10,11 @@ namespace BusBoard
     {
         static void Main(string[] args)
         {
-            try
-            {
-                var busManager = new Manager();
-                var postCode = busManager.GetUserPostCode();
-                var stopList = busManager.GetStopListNearPostCode(postCode);
-                busManager.GetFiveNextBusesFromTwoClosestStops(stopList);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("That Postcode does not exist in the TfL database.");
-            }
-            
-
-
-
-
-            
+            var busManager = new Manager();
+            var postCode = busManager.GetUserPostCode();
+            TfLApiReader.PostCodeValidator(postCode);
+            var stopList = busManager.GetStopListNearPostCode(postCode);
+            busManager.GetFiveNextBusesFromTwoClosestStops(stopList);
         }
     }
 }
